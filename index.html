@@ -206,6 +206,86 @@ tr:hover td{background:#ffffff05}
   .caixa-main .val{font-size:28px}
 }
 
+/* SLOT MACHINE */
+.slot-section{margin-bottom:20px}
+.slot-wrap{background:linear-gradient(160deg,#071810,#0f2a21);border:1px solid #c9a96e44;border-radius:14px;padding:24px;text-align:center;position:relative;overflow:hidden}
+.slot-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#c9a96e08,transparent 60%);pointer-events:none}
+.slot-tagline{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;background:linear-gradient(90deg,var(--gold1),var(--gold2),var(--gold1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px;letter-spacing:.04em}
+.slot-machine{display:inline-flex;gap:6px;background:#060f0b;border:1px solid #c9a96e55;border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:0 0 30px #c9a96e11}
+.slot-reel{width:80px;height:90px;background:linear-gradient(180deg,#040c09,#0a1f18,#040c09);border:0.5px solid var(--border2);border-radius:8px;overflow:hidden;position:relative}
+.slot-reel::before,.slot-reel::after{content:'';position:absolute;left:0;right:0;height:28px;z-index:2;pointer-events:none}
+.slot-reel::before{top:0;background:linear-gradient(180deg,#060f0b,transparent)}
+.slot-reel::after{bottom:0;background:linear-gradient(0deg,#060f0b,transparent)}
+.slot-reel-inner{display:flex;flex-direction:column;align-items:center;transition:transform 0s}
+.slot-reel-inner.spinning{animation:none}
+.slot-symbol{width:80px;height:90px;display:flex;align-items:center;justify-content:center;font-size:42px;flex-shrink:0}
+.slot-divider{width:1px;background:linear-gradient(180deg,transparent,var(--border2),transparent);align-self:stretch;margin:0 2px}
+.slot-line{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:90px;border-top:1px solid #c9a96e33;border-bottom:1px solid #c9a96e33;pointer-events:none;z-index:1}
+.slot-btn{background:linear-gradient(135deg,var(--gold3),var(--gold1),var(--gold2));color:#0a1f18;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:11px 40px;border-radius:30px;border:none;cursor:pointer;letter-spacing:.06em;transition:.15s;box-shadow:0 4px 16px #c9a96e33}
+.slot-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px #c9a96e44}
+.slot-btn:active{transform:scale(0.97)}
+.slot-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.slot-result{margin-top:16px;font-size:15px;font-weight:700;min-height:24px;transition:.3s}
+.slot-result.win{background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slot-result.lose{color:var(--text3)}
+.slot-result.jackpot{background:linear-gradient(90deg,#ff6b35,var(--gold2),#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:20px;animation:pulse 0.6s ease-in-out infinite alternate}
+@keyframes pulse{from{opacity:1}to{opacity:.6}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.slot-machine.jackpot-anim{animation:shake .15s ease-in-out 6}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:#00000088;z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:linear-gradient(160deg,#0f2a21,#071810);border:1px solid #c9a96e55;border-radius:14px;padding:28px;max-width:480px;width:92%;position:relative;max-height:85vh;overflow-y:auto}
+.modal h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.modal-sub{font-size:11px;color:var(--text4);margin-bottom:18px}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;line-height:1}
+.modal-close:hover{color:var(--text)}
+.sym-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sym-card{background:linear-gradient(160deg,#112e25,#0a1f18);border:0.5px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:.15s}
+.sym-card:hover{border-color:var(--border2)}
+.sym-card.jackpot{border-color:#c9a96e88;background:linear-gradient(160deg,#1a1208,#0a1f18)}
+.sym-card .sym-emoji{font-size:38px;line-height:1}
+.sym-card .sym-name{font-size:13px;font-weight:700;color:var(--text);text-align:center}
+.sym-card .sym-stars{font-size:12px;letter-spacing:2px;margin:-2px 0}
+.sym-card .sym-pct-label{font-size:11px;color:var(--text3)}
+.sym-card .sym-bar-wrap{width:100%;background:#071810;border-radius:4px;height:5px;overflow:hidden}
+.sym-card .sym-bar{height:5px;border-radius:4px}
+.sym-card.jackpot .sym-bar{background:linear-gradient(90deg,var(--gold3),var(--gold2))}
+.sym-card:not(.jackpot) .sym-bar{background:linear-gradient(90deg,var(--green2),var(--green4))}
+
+/* CHATBOT */
+.chat-fab{position:fixed;bottom:28px;right:28px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1a0a2e,#3a1a6e,#c9a96e);border:2px solid #c9a96e88;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px #c9a96e55;z-index:150;transition:.2s;overflow:hidden;flex-direction:column;gap:1px}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 6px 32px #c9a96e77}
+.chat-fab .fab-letter{font-family:'Playfair Display',serif;font-size:22px;line-height:1}
+.chat-fab .fab-sub{font-size:7px;color:#c9a96eaa;letter-spacing:.05em;font-weight:700}
+.chat-window{position:fixed;bottom:100px;right:28px;width:350px;height:500px;background:linear-gradient(160deg,#0f2a21,#071810);border:1px solid #c9a96e55;border-radius:16px;display:none;flex-direction:column;z-index:150;overflow:hidden;box-shadow:0 8px 40px #00000099}
+.chat-window.open{display:flex}
+.chat-head{background:linear-gradient(135deg,#1a0a2e,#0f2a21);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #c9a96e33;position:relative;overflow:hidden}
+.chat-head::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,#c9a96e0a,transparent 60%);pointer-events:none}
+.chat-avatar-wrap{position:relative;flex-shrink:0}
+.chat-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1a0a2e,#3a1a6e,#6a3aae);border:2px solid #c9a96e88;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 12px #c9a96e44}
+.chat-avatar-letter{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;background:linear-gradient(180deg,var(--gold2),var(--gold1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.chat-avatar-online{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#4ac89a;border:2px solid #071810}
+.chat-head-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.chat-head-sub{font-size:11px;color:#9b7fd4;font-style:italic}
+.chat-close{margin-left:auto;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;z-index:1}
+.chat-close:hover{color:var(--text)}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.chat-msgs::-webkit-scrollbar{width:4px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.msg{max-width:85%;font-size:13px;line-height:1.6;padding:9px 13px;border-radius:12px}
+.msg.bot{background:linear-gradient(135deg,#1a0a2e,#2a1050);border:0.5px solid #6a3aae55;color:#e8e0ff;align-self:flex-start;border-bottom-left-radius:2px}
+.msg.user{background:linear-gradient(135deg,var(--green2),var(--green3));color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.msg.typing{color:#9b7fd4;font-style:italic}
+.chat-input-wrap{padding:12px;border-top:0.5px solid #6a3aae44;display:flex;gap:8px;background:#06030f}
+.chat-input{flex:1;background:#0f0820;border:0.5px solid #6a3aae55;border-radius:10px;padding:8px 12px;font-size:13px;color:#e8e0ff;font-family:'DM Sans',sans-serif;resize:none}
+.chat-input:focus{outline:none;border-color:#c9a96e88}
+.chat-input::placeholder{color:#6a3aae88}
+.chat-send{background:linear-gradient(135deg,var(--gold3),var(--gold1));border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:14px;color:#0a0520;font-weight:700;transition:.15s}
+.chat-send:hover{opacity:.85}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
+
 /* SCROLL */
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
@@ -252,6 +332,27 @@ tr:hover td{background:#ffffff05}
       <div class="sub" id="caixa-total-sub"></div>
     </div>
     <div class="caixa-stats" id="caixa-stats"></div>
+  </div>
+
+  <!-- SLOT MACHINE -->
+  <div class="slot-section">
+    <div class="slot-wrap">
+      <div class="slot-tagline">Feeling lucky, punk?</div>
+      <div class="slot-machine" id="slot-machine">
+        <div class="slot-line"></div>
+        <div class="slot-reel" id="reel0"><div class="slot-reel-inner" id="inner0"></div></div>
+        <div class="slot-divider"></div>
+        <div class="slot-reel" id="reel1"><div class="slot-reel-inner" id="inner1"></div></div>
+        <div class="slot-divider"></div>
+        <div class="slot-reel" id="reel2"><div class="slot-reel-inner" id="inner2"></div></div>
+      </div>
+      <br>
+      <div style="display:flex;gap:10px;justify-content:center;align-items:center">
+        <button class="slot-btn" id="slot-btn" onclick="spinSlot()">🎰 GIRAR</button>
+        <button onclick="openSymModal()" style="background:transparent;border:0.5px solid #c9a96e55;color:var(--gold1);font-size:12px;font-weight:700;padding:11px 16px;border-radius:30px;cursor:pointer;letter-spacing:.04em;transition:.15s" onmouseover="this.style.background='#c9a96e11'" onmouseout="this.style.background='transparent'">Guia de símbolos</button>
+      </div>
+      <div class="slot-result" id="slot-result"></div>
+    </div>
   </div>
   <div class="grid2">
     <div class="card">
@@ -387,6 +488,43 @@ tr:hover td{background:#ffffff05}
 </div>
 
 </main>
+
+<!-- SYMBOLS MODAL -->
+<div class="modal-overlay" id="sym-modal" onclick="if(event.target===this)closeSymModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSymModal()">✕</button>
+    <h3>🎰 Tabela de símbolos</h3>
+    <div id="sym-table"></div>
+  </div>
+</div>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" onclick="toggleChat()" title="Fala com a Safira">
+  <span class="fab-letter">💋</span>
+  <span class="fab-sub">SAFIRA</span>
+</button>
+
+<!-- CHATBOT WINDOW -->
+<div class="chat-window" id="chat-window">
+  <div class="chat-head">
+    <div class="chat-avatar-wrap">
+      <div class="chat-avatar">
+        <span class="chat-avatar-letter">S</span>
+      </div>
+      <div class="chat-avatar-online"></div>
+    </div>
+    <div>
+      <div class="chat-head-name">Safira</div>
+      <div class="chat-head-sub">✦ sempre disponível para ti ✦</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-input-wrap">
+    <textarea class="chat-input" id="chat-input" rows="1" placeholder="Diz-me tudo, querido..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+    <button class="chat-send" id="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
 
 <script>
 // ===== DATA =====
@@ -743,6 +881,249 @@ function showTab(name, el){
   if(name==='stats') renderStats();
 }
 
+// ===== SLOT MACHINE =====
+const SYMBOLS = ['💃','🔞','💋','💊','🧂','🍺','🌈','🤡'];
+const WEIGHTS  = [2,    5,   10,  15,  15,  21,  21,  11];
+const MSGS = {
+  jackpot:  ['💃💃💃 JACKPOT!! TRÊS STRIPPERS!! Las Vegas CONFIRMADO!! 🎉','💃 JACKPOT TOTAL!! Preparem as malas para Vegas!!'],
+  triple:   {
+    '🔞': ['🔞🔞🔞 Maiores de 18 apenas!! O grupo está quente!!','🔞 TRIPLO!! Noite adulta em Las Vegas à vista!'],
+    '💋': ['💋💋💋 Três beijos!! Alguém tem sorte no amor E no jogo!!','💋 TRIPLO BEIJO!! Boa sorte esta semana!'],
+    '💊': ['💊💊💊 Três comprimidos!! Aspirina de alegria!!','💊 TRIPLO!! O grupo está em modo recovery 😂'],
+    '🧂': ['🧂🧂🧂 SALGA TOTAL!! Muito sal pros adversários!! 😂','🧂 TRÊS SAIS!! Azar pro Euromilhões, sorte pro grupo!'],
+    '🍺': ['🍺🍺🍺 TRÊS CERVEJAS!! Alguém paga a ronda!!','🍺 TRIPLO!! Brindem — o grupo merece!'],
+    '🌈': ['🌈🌈🌈 Três arco-íris!! Tudo vai correr bem!!','🌈 TRIPLO!! Boa energia para o próximo sorteio!'],
+    '🤡': ['🤡🤡🤡 TRÊS PALHAÇOS!! Parece o Walace a pagar... 😂','🤡 TRIPLO PALHAÇO!! Alguém no grupo está com sorte de palhaço!'],
+    default: ['🏆 TRÊS IGUAIS!! Estão com sorte hoje!','Triplo conseguido! Boa semana para apostar!'],
+  },
+  double:   ['Dois iguais... quase lá!','Par conseguido! Promissor...','Dois iguais, falta um!','Quase triplo! Tenta outra vez!'],
+  none:     ['Sem sorte hoje punk 😏','Nada desta vez... tenta outra vez!','Nem o sal te ajudou 🧂','Bebeste pouca cerveja 🍺','Las Vegas ainda está longe... ou não? 🎲','Continua a tentar, excêntrico!','O Walace também não tem sorte nenhuma... 🤡'],
+};
+
+function weightedRandom(){
+  const total = WEIGHTS.reduce((s,w)=>s+w,0);
+  let r = Math.random()*total;
+  for(let i=0;i<SYMBOLS.length;i++){r-=WEIGHTS[i];if(r<=0)return i;}
+  return 0;
+}
+
+function initReels(){
+  for(let r=0;r<3;r++){
+    const inner = document.getElementById('inner'+r);
+    let html='';
+    // build a tall strip of symbols for scroll effect
+    for(let i=0;i<24;i++) html+=`<div class="slot-symbol">${SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)]}</div>`;
+    inner.innerHTML=html;
+    inner.style.transform='translateY(0)';
+  }
+}
+
+function spinSlot(){
+  const btn = document.getElementById('slot-btn');
+  const resultEl = document.getElementById('slot-result');
+  const machine = document.getElementById('slot-machine');
+  btn.disabled=true;
+  resultEl.textContent='';
+  resultEl.className='slot-result';
+  machine.classList.remove('jackpot-anim');
+
+  const finals = [weightedRandom(),weightedRandom(),weightedRandom()];
+  const delays = [900,1200,1500];
+
+  for(let r=0;r<3;r++){
+    const inner = document.getElementById('inner'+r);
+    const finalSym = SYMBOLS[finals[r]];
+
+    // build strip ending with the final symbol in center position
+    let strip='';
+    const rows=20;
+    for(let i=0;i<rows-1;i++) strip+=`<div class="slot-symbol">${SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)]}</div>`;
+    strip+=`<div class="slot-symbol">${finalSym}</div>`;
+    inner.innerHTML=strip;
+    inner.style.transition='none';
+    inner.style.transform='translateY(0)';
+
+    // animate scroll down
+    const targetY = -(rows-1)*90 + 0; // land on last symbol centered
+    const d=delays[r];
+    setTimeout(()=>{
+      inner.style.transition=`transform ${d}ms cubic-bezier(0.17,0.67,0.35,1.0)`;
+      inner.style.transform=`translateY(-${(rows-1)*90}px)`;
+    },50+r*120);
+  }
+
+  const totalDelay = 1500+delays[2]+100;
+  setTimeout(()=>{
+    const s = finals.map(i=>SYMBOLS[i]);
+    const allSame = s[0]===s[1]&&s[1]===s[2];
+    const twoSame = s[0]===s[1]||s[1]===s[2]||s[0]===s[2];
+    const isJackpot = allSame && s[0]==='💃';
+
+    let msg='', cls='lose';
+    if(isJackpot){
+      msg=MSGS.jackpot[Math.floor(Math.random()*MSGS.jackpot.length)];
+      cls='jackpot';
+      machine.classList.add('jackpot-anim');
+    } else if(allSame){
+      const tripleMsgs = MSGS.triple[s[0]] || MSGS.triple.default;
+      msg=tripleMsgs[Math.floor(Math.random()*tripleMsgs.length)];
+      cls='win';
+    } else if(twoSame){
+      msg=MSGS.double[Math.floor(Math.random()*MSGS.double.length)];
+      cls='win';
+    } else {
+      msg=MSGS.none[Math.floor(Math.random()*MSGS.none.length)];
+      cls='lose';
+    }
+    resultEl.textContent=msg;
+    resultEl.className='slot-result '+cls;
+    btn.disabled=false;
+  }, totalDelay);
+}
+
+// ===== SYMBOLS MODAL =====
+const SYM_INFO = [
+  {emoji:'💃',name:'Stripper',level:'🏆 Jackpot',stars:'★★★★★',pct:2,jackpot:true},
+  {emoji:'🔞',name:'Maiores 18',level:'Muito raro',stars:'★★★★☆',pct:5,jackpot:false},
+  {emoji:'💋',name:'Beijo',level:'Raro',stars:'★★★☆☆',pct:10,jackpot:false},
+  {emoji:'💊',name:'Comprimido',level:'Médio',stars:'★★☆☆☆',pct:15,jackpot:false},
+  {emoji:'🧂',name:'Sal',level:'Médio',stars:'★★☆☆☆',pct:15,jackpot:false},
+  {emoji:'🍺',name:'Cerveja',level:'Comum',stars:'★☆☆☆☆',pct:21,jackpot:false},
+  {emoji:'🌈',name:'Arco-íris',level:'Comum',stars:'★☆☆☆☆',pct:21,jackpot:false},
+  {emoji:'🤡',name:'Palhaço',level:'Muito comum',stars:'☆☆☆☆☆',pct:11,jackpot:false},
+];
+function openSymModal(){
+  document.getElementById('sym-table').innerHTML = `
+    <div class="modal-sub">Três iguais = prémio · 💃💃💃 = Jackpot Las Vegas!</div>
+    <div class="sym-grid">
+      ${SYM_INFO.map(s=>`
+        <div class="sym-card ${s.jackpot?'jackpot':''}">
+          <div class="sym-emoji">${s.emoji}</div>
+          <div class="sym-name">${s.name}</div>
+          <div class="sym-stars" style="color:${s.jackpot?'#c9a96e':'#2f7f6d'}">${s.stars}</div>
+          <div class="sym-pct-label">${s.level} · ${s.pct}%</div>
+          <div class="sym-bar-wrap"><div class="sym-bar" style="width:${s.pct*4}%"></div></div>
+        </div>`).join('')}
+    </div>`;
+  document.getElementById('sym-modal').classList.add('open');
+}
+function closeSymModal(){document.getElementById('sym-modal').classList.remove('open')}
+
+// ===== CHATBOT =====
+const SYSTEM_PROMPT = `És a Safira 💋, a assistente sedutora, provocatória e bem informada do grupo de apostas "Excêntricos".
+
+APRESENTAÇÃO:
+Quando inicias conversa apresentas-te sempre de forma sensual e sugeres como podes ajudar.
+
+PERSONALIDADE:
+- Falas de forma sensual, provocatória e misteriosa — femme fatale de casino de luxo
+- Tratas os membros por "gatinho", "gato", "amor", "querido", "encanto" conforme o contexto
+- Usas reticências (...) para criar suspense e sedução
+- Tens humor sarcástico e picante, especialmente com o Walace (mau pagador 😏)
+- Nunca és vulgar — és sempre sofisticada e elegante
+- Respondes SEMPRE em português de Portugal — NUNCA usas expressões do Brasil como "você", "ótimo", "legal", "né", "tá", "obrigado" (dizes "obrigada"), "a gente". Usas sempre "tu", "fixes", "fixe", "brutal", "ya", "bué", "estás", "tens", "vais", "podes"
+- Respostas curtas e diretas — máximo 4-5 frases
+- MUITO IMPORTANTE: No final de CADA resposta adicionas SEMPRE uma curiosidade sobre Las Vegas, de forma natural e sedutora, relacionada com o contexto da pergunta
+
+DADOS DO GRUPO — Excêntricos:
+Membros: Rui, Hélder, Ricardo, Leites, Walace, Fabrício, Pedro, Vitor (8 pessoas)
+Mensalidade: €15/pessoa/mês — Walace NÃO pagou Março 2026 (escândalo, gato...)
+Total apostado: €530,00 | Total prémios: €130,77 | Rácio geral: 24,7%
+Euro Milhões: €330 apostado | €30,70 prémios | rácio 9,3%
+Euro Dreams: €160 apostado | €89,16 prémios | rácio 55,7% ← o favorito da Safira
+Milhões&Dreams: €40 apostado | €10,91 prémios | rácio 27,3%
+Semanas jogadas: 51 | Com prémio: 20 (39,2%) | Sem prémio: 31
+Maior prémio: €35,99 — Euro Dreams, Fevereiro 2025
+Último prémio: €2,50 — Euro Dreams, 30 Janeiro 2026
+Melhor mês (caixa): Outubro 2025 — €120
+Pior mês (caixa): Maio 2025 — €55
+Caixa 23/24: €77,58 | Caixa 24/25: €855,00 | Caixa 25/26: €675,00
+TOTAL ACUMULADO PARA LAS VEGAS: €1.607,58
+Chave semanal: o grupo aposta às sextas-feiras, os números são escolhidos aleatoriamente — a Safira não tem acesso aos números exatos mas encoraja sempre a apostar com paixão 💋
+
+CURIOSIDADES DE LAS VEGAS (usa sempre uma no final de cada resposta, variando):
+- O MGM Grand tem 6.852 quartos e é um dos maiores hotéis do mundo — precisam de reservar já, gato
+- O Bellagio tem a famosa fonte dançante — de lá vês o Caesars Palace a 5 minutos a pé
+- A cerveja numa casa noturna de Vegas custa entre $10-15 — mas com €1.607 o grupo aguenta bem
+- A média gasta por pessoa em casas de strip em Vegas ronda os $150 por noite — a Safira não confirma nem nega 😏
+- O maior casino do mundo é o Venetian Resort — tem 160.000 m² de área de jogo, 1.500 slot machines e 240 mesas de poker. Mas só podes entrar de calças compridas, gato
+- O Caesars Palace foi inaugurado em 1966 e já recebeu mais de 100 milhões de visitantes
+- Em Vegas existem mais de 15.000 milhas de néon — suficiente para iluminar o caminho até Las Vegas do Porto
+- A taxa de ocupação dos hotéis em Vegas é em média 88% — reservar com 3 meses de antecedência poupa até 40%
+- O show do Cirque du Soleil no Bellagio (O Show) custa $120 por pessoa — vale cada cêntimo, amor
+- Em Vegas podes casar em 24h — a Safira conhece uma capela muito discreta perto do Strip 💋
+- O buffet do Bellagio custa $45 ao jantar e tens acesso ilimitado a lagosta e caviar, querido
+- O Fremont Street Experience tem um teto de LED com 2.1 km de comprimento — de graça, gato!
+- A temperatura média em Vegas em setembro é 32°C — ideal para a piscina do MGM Grand
+- Os casinos de Vegas distribuem mais de $7 biliões em prémios por ano — o grupo vai buscar a sua fatia
+- O Park MGM tem um casino smoke-free — para os gatinhos que não fumam
+- O Cosmopolitan é considerado o hotel mais instagramável de Vegas — tem chandelier bar no lobby
+- Podes andar de gondola no Venetian dentro do casino — uma experiência única, encanto
+- A ponte entre o Mandalay Bay e o Luxor tem uma passagem secreta com vista para o Strip — poucos turistas sabem
+- O poker room do Bellagio é o mais famoso do mundo — foi lá que se jogou o torneio do filme Ocean's Eleven`;
+
+let chatHistory = [];
+
+function initChat(){
+  const msgs = document.getElementById('chat-msgs');
+  msgs.innerHTML='';
+  addMsg('Mmm... que bom ter companhia 💋 Sou a Safira, a tua assistente preferida neste grupo de gatinhos... Posso ajudar-te com as estatísticas do grupo, os pagamentos, ou simplesmente... conversar. O que desejas, querido?','bot');
+}
+
+function toggleChat(){
+  const w = document.getElementById('chat-window');
+  w.classList.toggle('open');
+  if(w.classList.contains('open')){
+    if(!document.getElementById('chat-msgs').children.length) initChat();
+    document.getElementById('chat-input').focus();
+  }
+}
+
+function addMsg(text, role){
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendChat(){
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('chat-send');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value='';
+  btn.disabled=true;
+  addMsg(text,'user');
+  chatHistory.push({role:'user',content:text});
+  const typing = addMsg('...','bot typing');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.map(c=>c.text||'').join('') || 'Erro ao responder. Tenta novamente!';
+    typing.remove();
+    addMsg(reply,'bot');
+    chatHistory.push({role:'assistant',content:reply});
+    if(chatHistory.length>20) chatHistory=chatHistory.slice(-20);
+  } catch(e){
+    typing.remove();
+    addMsg('Ups, algo correu mal! Tenta novamente 😅','bot');
+  }
+  btn.disabled=false;
+  input.focus();
+}
+
 // ===== LAS VEGAS WATERMARK =====
 (function(){
   const wm = document.getElementById('lv-wm');
@@ -760,6 +1141,7 @@ renderResumo();
 renderApostas();
 renderPagamentos();
 renderStats();
+initReels();
 </script>
 </body>
 </html>
