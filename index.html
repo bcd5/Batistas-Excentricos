@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excêntricos — Euromilhões</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a1f18;
+  --bg2: #0d2620;
+  --bg3: #112e25;
+  --card: #0f2a21;
+  --border: #1f4a3a;
+  --border2: #2a6a54;
+  --green1: #0f3f35;
+  --green2: #1a5a48;
+  --green3: #2f7f6d;
+  --green4: #5abba2;
+  --green5: #8dd4c0;
+  --text: #c8e8e0;
+  --text2: #8dd4c0;
+  --text3: #5abba2;
+  --text4: #2d6a58;
+  --gold1: #c9a96e;
+  --gold2: #e8cc8a;
+  --gold3: #a87840;
+  --up: #4ac89a;
+  --down: #e07070;
+  --warn: #e0a050;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative}
+
+/* LAS VEGAS WATERMARK */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    repeating-linear-gradient(
+      -30deg,
+      transparent 0px,
+      transparent 80px,
+      #c9a96e06 80px,
+      #c9a96e06 81px
+    );
+}
+.lv-watermark{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  display:flex;
+  flex-wrap:wrap;
+  align-content:flex-start;
+  gap:0;
+}
+.lv-watermark span{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  font-weight:600;
+  color:#c9a96e22;
+  -webkit-text-stroke:0.5px #c9a96e30;
+  letter-spacing:.18em;
+  line-height:1;
+  padding:18px 28px;
+  white-space:nowrap;
+  user-select:none;
+  transform:rotate(-22deg);
+  display:inline-block;
+}
+nav,main,.ticker-wrap{position:relative;z-index:1}
+
+/* NAV */
+nav{background:linear-gradient(135deg,#071810 0%,var(--green1) 55%,var(--green2) 100%);border-bottom:1px solid #c9a96e44;position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logo{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#0a1f18;flex-shrink:0;box-shadow:0 2px 12px #c9a96e33}
+.nav-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;background:linear-gradient(90deg,var(--gold2),var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-sub{font-size:11px;color:var(--text3);letter-spacing:.03em}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{font-size:13px;font-weight:700;color:#ffffffcc;padding:7px 16px;border-radius:7px;border:0.5px solid transparent;cursor:pointer;transition:.15s;letter-spacing:.01em;background:none}
+.nav-tab:hover{color:#fff;background:#ffffff11}
+.nav-tab.active{background:linear-gradient(135deg,var(--green2),var(--green3));color:#fff;border:0.5px solid #3a9a80;border-bottom:2px solid var(--gold1)}
+
+/* TICKER */
+.ticker-wrap{background:#060f0b;border-bottom:1px solid var(--border);overflow:hidden;height:30px;display:flex;align-items:center;position:relative}
+.ticker-label{background:linear-gradient(90deg,var(--gold1),var(--gold2));color:#0a1f18;font-size:10px;font-weight:700;padding:0 14px;height:100%;display:flex;align-items:center;flex-shrink:0;letter-spacing:.08em;z-index:2}
+.ticker-fade-l{position:absolute;left:72px;top:0;width:20px;height:100%;background:linear-gradient(90deg,#060f0b,transparent);z-index:1;pointer-events:none}
+.ticker-fade-r{position:absolute;right:0;top:0;width:40px;height:100%;background:linear-gradient(270deg,#060f0b,transparent);z-index:1;pointer-events:none}
+.ticker-track{display:flex;align-items:center;white-space:nowrap;animation:ticker 40s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:5px;padding:0 20px;font-size:11px}
+.ti .lbl{color:var(--text3)}
+.ti .val{font-weight:700;color:var(--text)}
+.ti .val.gold{background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ti .val.up{color:var(--up)}
+.ti .val.down{color:var(--down)}
+.ti .val.warn{color:var(--warn)}
+.tsep{color:var(--border2);font-size:14px}
+
+/* MAIN */
+main{max-width:1200px;margin:0 auto;padding:24px}
+.section{display:none}
+.section.active{display:block}
+
+/* METRICS ROW */
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.metric{background:linear-gradient(160deg,var(--bg3),var(--card));border-radius:10px;padding:14px 16px;border:0.5px solid var(--border);transition:.2s}
+.metric:hover{border-color:var(--border2)}
+.metric-label{font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:.03em}
+.metric-val{font-size:22px;font-weight:700;color:var(--text);line-height:1}
+.metric-val.gold{background:linear-gradient(90deg,var(--gold1),var(--gold2),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-val.up{color:var(--up)}
+.metric-val.down{color:var(--down)}
+.metric-sub{font-size:10px;color:var(--text4);margin-top:5px}
+
+/* CAIXA BANNER */
+.caixa-banner{background:linear-gradient(135deg,#071810 0%,var(--green1) 50%,var(--green2) 100%);border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;border:0.5px solid var(--border2);position:relative;overflow:hidden}
+.caixa-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,#2f7f6d18,transparent 70%)}
+.caixa-banner::after{content:'';position:absolute;bottom:-20px;left:40%;width:200px;height:80px;background:radial-gradient(ellipse,#c9a96e08,transparent 70%)}
+.caixa-main .lbl{font-size:12px;color:var(--text3);margin-bottom:6px}
+.caixa-main .val{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;background:linear-gradient(90deg,var(--gold1),var(--gold2),var(--gold1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.caixa-main .sub{font-size:11px;color:var(--text4);margin-top:6px}
+.caixa-stats{display:flex;gap:32px}
+.caixa-stat .lbl{font-size:10px;color:var(--text4);margin-bottom:3px;letter-spacing:.03em}
+.caixa-stat .val{font-size:14px;color:var(--text);font-weight:500}
+.divider-v{width:1px;background:linear-gradient(180deg,transparent,var(--green3),transparent);align-self:stretch;margin:0 4px}
+
+/* GRID 2 COL */
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:20px}
+.grid2-eq{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:20px}
+
+/* CARD */
+.card{background:linear-gradient(160deg,var(--bg3),var(--card));border-radius:10px;border:0.5px solid var(--border);overflow:hidden}
+.card-head{background:linear-gradient(90deg,#071810,var(--green1));padding:10px 16px;font-size:12px;font-weight:700;color:var(--text2);border-bottom:0.5px solid var(--border);letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center}
+.card-body{padding:14px 16px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:700;color:var(--text3);padding:7px 10px;border-bottom:0.5px solid var(--border);letter-spacing:.04em}
+td{padding:8px 10px;border-bottom:0.5px solid #152e25;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#ffffff05}
+.t-right{text-align:right}
+.t-center{text-align:center}
+
+/* BADGE */
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:700;display:inline-block}
+.badge-ok{background:#0f3028;color:var(--up);border:0.5px solid #1f5a3a}
+.badge-no{background:#2e1010;color:var(--down);border:0.5px solid #5a1a1a}
+.badge-late{background:#2e2010;color:var(--warn);border:0.5px solid #5a3a10}
+.badge-em{background:#112e25;color:var(--green4);border:0.5px solid var(--border)}
+.badge-ed{background:#1a1a3a;color:#8aa8e8;border:0.5px solid #2a3a6a}
+.badge-mb{background:#2a1a3a;color:#c8a0e8;border:0.5px solid #4a2a6a}
+
+/* BAR */
+.bar-wrap{background:#071810;border-radius:4px;height:6px;overflow:hidden;flex:1}
+.bar{height:6px;border-radius:4px;transition:width .6s ease}
+.bar-green{background:linear-gradient(90deg,var(--green3),var(--green4))}
+.bar-gold{background:linear-gradient(90deg,var(--gold3),var(--gold1))}
+.bar-blue{background:linear-gradient(90deg,#2558b0,#6a8ad4)}
+
+/* PLAYER ROW */
+.p-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #152e25}
+.p-row:last-child{border-bottom:none}
+.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.p-name{font-size:13px;font-weight:500;color:var(--text);min-width:72px}
+.p-val{font-size:12px;color:var(--text3);min-width:54px;text-align:right}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-bar select,.filter-bar input{background:var(--card);border:0.5px solid var(--border);border-radius:7px;color:var(--text);padding:7px 12px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer}
+.filter-bar select:focus,.filter-bar input:focus{outline:none;border-color:var(--green3)}
+
+/* CHART BARS */
+.hbar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.hbar-label{font-size:12px;color:var(--text2);min-width:90px;text-align:right}
+.hbar-val{font-size:12px;color:var(--text3);min-width:48px}
+
+/* SEASON TOGGLE */
+.season-pills{display:flex;gap:6px;margin-bottom:16px}
+.season-pill{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;border:0.5px solid var(--border);cursor:pointer;color:var(--text3);background:transparent;transition:.15s}
+.season-pill.active{background:linear-gradient(135deg,var(--green2),var(--green3));color:#fff;border-color:var(--green3)}
+
+/* SECTION TITLE */
+.sec-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--text);margin-bottom:16px}
+
+/* STAT HIGHLIGHT */
+.stat-hl{background:linear-gradient(160deg,var(--bg3),var(--card));border:0.5px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.stat-hl .icon{font-size:22px;margin-bottom:8px}
+.stat-hl .val{font-size:24px;font-weight:700;margin-bottom:4px}
+.stat-hl .lbl{font-size:11px;color:var(--text3)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .grid2,.grid2-eq,.grid3{grid-template-columns:1fr}
+  .nav-tabs{display:none}
+  .caixa-stats{gap:16px}
+  .caixa-main .val{font-size:28px}
+}
+
+/* SCROLL */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="lv-watermark" id="lv-wm"></div>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div class="nav-logo">E</div>
+      <div>
+        <div class="nav-title">Excêntricos</div>
+        <div class="nav-sub">Grupo de Apostas</div>
+      </div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('resumo',this)">Resumo</button>
+      <button class="nav-tab" onclick="showTab('apostas',this)">Apostas</button>
+      <button class="nav-tab" onclick="showTab('pagamentos',this)">Pagamentos</button>
+      <button class="nav-tab" onclick="showTab('stats',this)">Estatísticas</button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">STATS</div>
+  <div class="ticker-fade-l"></div>
+  <div class="ticker-track" id="ticker-track"></div>
+  <div class="ticker-fade-r"></div>
+</div>
+
+<main>
+
+<!-- ===== RESUMO ===== -->
+<div id="tab-resumo" class="section active">
+  <div class="metrics" id="resumo-metrics"></div>
+  <div class="caixa-banner">
+    <div class="caixa-main">
+      <div class="lbl">💰 Fundo convívio anual</div>
+      <div class="val" id="caixa-total-val"></div>
+      <div class="sub" id="caixa-total-sub"></div>
+    </div>
+    <div class="caixa-stats" id="caixa-stats"></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">Últimas apostas</div>
+      <div class="card-body" style="padding:0">
+        <table><thead><tr><th>Data</th><th>Jogo</th><th>Aposta</th><th class="t-right">Prémio</th></tr></thead>
+        <tbody id="recent-bets"></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Pagamentos — mês atual</div>
+      <div class="card-body" id="pag-atual"></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-head">Euro Milhões</div>
+      <div class="card-body" id="resumo-em"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Euro Dreams</div>
+      <div class="card-body" id="resumo-ed"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Milhões &amp; Dreams</div>
+      <div class="card-body" id="resumo-mb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APOSTAS ===== -->
+<div id="tab-apostas" class="section">
+  <div class="sec-title">Histórico de Apostas</div>
+  <div class="filter-bar">
+    <select id="f-season" onchange="renderApostas()">
+      <option value="">Todas as temporadas</option>
+      <option value="24/25">24/25</option>
+      <option value="25/26">25/26</option>
+    </select>
+    <select id="f-mes" onchange="renderApostas()">
+      <option value="">Todos os meses</option>
+    </select>
+    <select id="f-jogo" onchange="renderApostas()">
+      <option value="">Todos os jogos</option>
+      <option value="Euro Milhões">Euro Milhões</option>
+      <option value="Euro Dreams">Euro Dreams</option>
+      <option value="Milhões&Dreams">Milhões &amp; Dreams</option>
+    </select>
+    <select id="f-premio" onchange="renderApostas()">
+      <option value="">Todos os resultados</option>
+      <option value="sim">Com prémio</option>
+      <option value="nao">Sem prémio</option>
+    </select>
+  </div>
+  <div class="card">
+    <div class="card-body" style="padding:0">
+      <table><thead><tr><th>Season</th><th>Mês</th><th>Data</th><th>Jogo</th><th class="t-right">Aposta</th><th class="t-right">Prémio</th><th class="t-right">Rácio</th></tr></thead>
+      <tbody id="all-apostas"></tbody></table>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:12px;color:var(--text3)" id="apostas-count"></div>
+</div>
+
+<!-- ===== PAGAMENTOS ===== -->
+<div id="tab-pagamentos" class="section">
+  <div class="sec-title">Pagamentos Mensais</div>
+  <div class="season-pills">
+    <button class="season-pill active" onclick="filterPagSeason('',this)">Todas</button>
+    <button class="season-pill" onclick="filterPagSeason('24/25',this)">24/25</button>
+    <button class="season-pill" onclick="filterPagSeason('25/26',this)">25/26</button>
+  </div>
+  <div class="card">
+    <div class="card-body" style="padding:0;overflow-x:auto">
+      <table id="pag-table" style="min-width:700px">
+        <thead><tr id="pag-head"></tr></thead>
+        <tbody id="pag-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid2-eq" style="margin-top:16px">
+    <div class="card">
+      <div class="card-head">Caixa por mês</div>
+      <div class="card-body" id="caixa-chart"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Resumo por temporada</div>
+      <div class="card-body" id="season-summary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ESTATÍSTICAS ===== -->
+<div id="tab-stats" class="section">
+  <div class="sec-title">Estatísticas</div>
+  <div class="metrics" id="stats-metrics"></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">Prémios por mês</div>
+      <div class="card-body" id="premios-mes-chart"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Rácio por tipo de jogo</div>
+      <div class="card-body" id="racio-chart"></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="stat-hl">
+      <div class="icon">🏆</div>
+      <div class="val" style="background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">€35,99</div>
+      <div class="lbl">Maior prémio — Euro Dreams, Fev 2025</div>
+    </div>
+    <div class="stat-hl">
+      <div class="icon">🎯</div>
+      <div class="val" style="color:var(--up)">39,2%</div>
+      <div class="lbl">Taxa de semanas com prémio (20 em 51)</div>
+    </div>
+    <div class="stat-hl">
+      <div class="icon">📅</div>
+      <div class="val" style="color:var(--text)">51</div>
+      <div class="lbl">Semanas jogadas (2 temporadas)</div>
+    </div>
+  </div>
+  <div class="grid2-eq">
+    <div class="card">
+      <div class="card-head">Evolução da caixa (mês a mês)</div>
+      <div class="card-body" id="evolucao-caixa"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">Maiores prémios</div>
+      <div class="card-body" id="top-premios"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ===== DATA =====
+const APOSTAS = [
+  {season:'24/25',mes:'Novembro',data:'2024-11-08',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Novembro',data:'2024-11-15',jogo:'Euro Dreams',aposta:10,premio:2.5},
+  {season:'24/25',mes:'Novembro',data:'2024-11-22',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Novembro',data:'2024-11-29',jogo:'Euro Milhões',aposta:10,premio:4.94},
+  {season:'24/25',mes:'Dezembro',data:'2024-12-13',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Dezembro',data:'2024-12-27',jogo:'Milhões&Dreams',aposta:20,premio:5.04},
+  {season:'24/25',mes:'Janeiro',data:'2025-01-10',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Janeiro',data:'2025-01-17',jogo:'Euro Dreams',aposta:10,premio:0},
+  {season:'24/25',mes:'Janeiro',data:'2025-01-24',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Janeiro',data:'2025-01-31',jogo:'Euro Dreams',aposta:10,premio:11.37},
+  {season:'24/25',mes:'Fevereiro',data:'2025-02-14',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Fevereiro',data:'2025-02-21',jogo:'Euro Dreams',aposta:10,premio:35.99},
+  {season:'24/25',mes:'Fevereiro',data:'2025-02-28',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Março',data:'2025-03-14',jogo:'Euro Milhões',aposta:10,premio:5.68},
+  {season:'24/25',mes:'Março',data:'2025-03-21',jogo:'Euro Dreams',aposta:10,premio:2.5},
+  {season:'24/25',mes:'Março',data:'2025-03-28',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Abril',data:'2025-04-11',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Maio',data:'2025-05-09',jogo:'Milhões&Dreams',aposta:20,premio:5.87},
+  {season:'24/25',mes:'Maio',data:'2025-05-16',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Maio',data:'2025-05-23',jogo:'Euro Dreams',aposta:10,premio:0},
+  {season:'24/25',mes:'Maio',data:'2025-05-30',jogo:'Euro Milhões',aposta:10,premio:3.76},
+  {season:'24/25',mes:'Junho',data:'2025-06-13',jogo:'Euro Milhões',aposta:10,premio:2.5},
+  {season:'24/25',mes:'Junho',data:'2025-06-20',jogo:'Euro Dreams',aposta:10,premio:4.48},
+  {season:'24/25',mes:'Junho',data:'2025-06-27',jogo:'Euro Milhões',aposta:10,premio:4.48},
+  {season:'24/25',mes:'Julho',data:'2025-07-11',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Agosto',data:'2025-08-08',jogo:'Euro Milhões',aposta:10,premio:5.69},
+  {season:'24/25',mes:'Agosto',data:'2025-08-15',jogo:'Euro Dreams',aposta:10,premio:2.5},
+  {season:'24/25',mes:'Agosto',data:'2025-08-22',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Agosto',data:'2025-08-29',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Setembro',data:'2025-09-12',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'24/25',mes:'Setembro',data:'2025-09-19',jogo:'Euro Dreams',aposta:10,premio:11.59},
+  {season:'24/25',mes:'Setembro',data:'2025-09-26',jogo:'Euro Milhões',aposta:10,premio:3.65},
+  {season:'25/26',mes:'Outubro',data:'2025-10-10',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Outubro',data:'2025-10-17',jogo:'Euro Dreams',aposta:10,premio:8.23},
+  {season:'25/26',mes:'Outubro',data:'2025-10-24',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Outubro',data:'2025-10-31',jogo:'Euro Dreams',aposta:10,premio:5},
+  {season:'25/26',mes:'Novembro',data:'2025-11-14',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Novembro',data:'2025-11-21',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Novembro',data:'2025-11-28',jogo:'Euro Dreams',aposta:10,premio:2.5},
+  {season:'25/26',mes:'Dezembro',data:'2025-12-12',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Dezembro',data:'2025-12-19',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Dezembro',data:'2025-12-26',jogo:'Euro Dreams',aposta:10,premio:0},
+  {season:'25/26',mes:'Janeiro',data:'2026-01-09',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Janeiro',data:'2026-01-16',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Janeiro',data:'2026-01-23',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Janeiro',data:'2026-01-30',jogo:'Euro Dreams',aposta:10,premio:2.5},
+  {season:'25/26',mes:'Fevereiro',data:'2026-02-13',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Fevereiro',data:'2026-02-20',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Fevereiro',data:'2026-02-27',jogo:'Euro Dreams',aposta:10,premio:0},
+  {season:'25/26',mes:'Março',data:'2026-03-13',jogo:'Euro Milhões',aposta:10,premio:0},
+  {season:'25/26',mes:'Março',data:'2026-03-20',jogo:'Euro Dreams',aposta:10,premio:0},
+];
+
+const PAGAMENTOS = [
+  {season:'24/25',ano:2024,mes:'Novembro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:30,ed:10,desp:0,premios:7.44,caixa:65},
+  {season:'24/25',ano:2025,mes:'Dezembro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:10,desp:0,premios:5.04,caixa:75},
+  {season:'24/25',ano:2025,mes:'Janeiro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:20,desp:0,premios:11.37,caixa:65},
+  {season:'24/25',ano:2025,mes:'Fevereiro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:10,desp:0,premios:35.99,caixa:75},
+  {season:'24/25',ano:2025,mes:'Março',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:10,desp:0,premios:8.18,caixa:75},
+  {season:'24/25',ano:2025,mes:'Abril',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:10,ed:0,desp:0,premios:5.87,caixa:95},
+  {season:'24/25',ano:2025,mes:'Maio',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:30,ed:20,desp:0,premios:3.76,caixa:55},
+  {season:'24/25',ano:2025,mes:'Junho',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:10,desp:0,premios:11.46,caixa:75},
+  {season:'24/25',ano:2025,mes:'Julho',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:10,ed:0,desp:0,premios:0,caixa:95},
+  {season:'24/25',ano:2025,mes:'Agosto',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:20,ed:10,desp:0,premios:8.19,caixa:75},
+  {season:'24/25',ano:2025,mes:'Setembro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:null,total:105,em:null,ed:null,desp:0,premios:15.24,caixa:105},
+  {season:'25/26',ano:2025,mes:'Outubro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:15,total:120,em:null,ed:null,desp:0,premios:13.23,caixa:120},
+  {season:'25/26',ano:2025,mes:'Novembro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:15,total:120,em:null,ed:null,desp:null,premios:2.5,caixa:120},
+  {season:'25/26',ano:2025,mes:'Dezembro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:15,total:120,em:null,ed:null,desp:null,premios:0,caixa:120},
+  {season:'25/26',ano:2026,mes:'Janeiro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:15,total:120,em:null,ed:null,desp:0,premios:2.5,caixa:120},
+  {season:'25/26',ano:2026,mes:'Fevereiro',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:15,Fabrício:15,Pedro:15,Vitor:15,total:105,em:null,ed:null,desp:null,premios:null,caixa:105},
+  {season:'25/26',ano:2026,mes:'Março',Rui:15,Hélder:15,Ricardo:15,Leites:15,Walace:null,Fabrício:15,Pedro:15,Vitor:15,total:90,em:null,ed:null,desp:null,premios:null,caixa:90},
+];
+
+const MEMBERS = ['Rui','Hélder','Ricardo','Leites','Walace','Fabrício','Pedro','Vitor'];
+const MEMBER_COLORS = ['#3584e4','#e66100','#2ec27e','#c061cb','#ed333b','#9141ac','#1c71d8','#d4a017'];
+
+const f = (n) => '€' + (n||0).toFixed(2).replace('.',',');
+const fPct = (n) => (n||0).toFixed(1) + '%';
+
+function jobadge(j){
+  if(j==='Euro Milhões') return `<span class="badge badge-em">EM</span>`;
+  if(j==='Euro Dreams') return `<span class="badge badge-ed">ED</span>`;
+  return `<span class="badge badge-mb">M&amp;D</span>`;
+}
+
+// ===== STATS =====
+const totalApostado = APOSTAS.reduce((s,a)=>s+a.aposta,0);
+const totalPremios = APOSTAS.reduce((s,a)=>s+a.premio,0);
+const emAp = APOSTAS.filter(a=>a.jogo==='Euro Milhões').reduce((s,a)=>s+a.aposta,0);
+const emPr = APOSTAS.filter(a=>a.jogo==='Euro Milhões').reduce((s,a)=>s+a.premio,0);
+const edAp = APOSTAS.filter(a=>a.jogo==='Euro Dreams').reduce((s,a)=>s+a.aposta,0);
+const edPr = APOSTAS.filter(a=>a.jogo==='Euro Dreams').reduce((s,a)=>s+a.premio,0);
+const mbAp = APOSTAS.filter(a=>a.jogo==='Milhões&Dreams').reduce((s,a)=>s+a.aposta,0);
+const mbPr = APOSTAS.filter(a=>a.jogo==='Milhões&Dreams').reduce((s,a)=>s+a.premio,0);
+const caixa2425 = PAGAMENTOS.filter(p=>p.season==='24/25').reduce((s,p)=>s+(p.caixa||0),0);
+const caixa2526 = PAGAMENTOS.filter(p=>p.season==='25/26').reduce((s,p)=>s+(p.caixa||0),0);
+const caixaTotal = 77.58 + caixa2425 + caixa2526;
+const semanasCom = APOSTAS.filter(a=>a.premio>0).length;
+const melhorMes = PAGAMENTOS.reduce((best,p)=>p.caixa>best.caixa?p:best,PAGAMENTOS[0]);
+const piorMes = PAGAMENTOS.reduce((worst,p)=>p.caixa<worst.caixa?p:worst,PAGAMENTOS[0]);
+const maisPremios = [...APOSTAS].filter(a=>a.premio>0).sort((a,b)=>b.premio-a.premio);
+
+// ===== TICKER =====
+function buildTicker(){
+  const items = [
+    {lbl:'💰 Fundo convívio',val:f(caixaTotal),cls:'gold'},
+    {lbl:'📊 Total apostado',val:f(totalApostado),cls:''},
+    {lbl:'🏆 Total prémios',val:f(totalPremios),cls:'up'},
+    {lbl:'📉 Rácio geral',val:fPct(totalPremios/totalApostado*100),cls:''},
+    {lbl:'🟢 Rácio Euro Milhões',val:fPct(emPr/emAp*100),cls:'down'},
+    {lbl:'🔵 Rácio Euro Dreams',val:fPct(edPr/edAp*100),cls:'up'},
+    {lbl:'🎯 Semanas c/ prémio',val:`${semanasCom}/51`,cls:'up'},
+    {lbl:'📅 Melhor mês',val:`${melhorMes.mes} ${melhorMes.ano} — ${f(melhorMes.caixa)}`,cls:'up'},
+    {lbl:'😬 Pior mês',val:`${piorMes.mes} ${piorMes.ano} — ${f(piorMes.caixa)}`,cls:'down'},
+    {lbl:'🏅 Maior prémio',val:'€35,99 — Euro Dreams Fev/25',cls:'gold'},
+    {lbl:'📦 Caixa 24/25',val:f(caixa2425),cls:''},
+    {lbl:'📦 Caixa 25/26',val:f(caixa2526),cls:''},
+    {lbl:'⚠️ Walace',val:'Por pagar — Mar/26',cls:'warn'},
+  ];
+  const html = [...items,...items].map((it,i)=>
+    `<span class="ti"><span class="lbl">${it.lbl}</span><span class="val ${it.cls}">${it.val}</span></span><span class="tsep">·</span>`
+  ).join('');
+  document.getElementById('ticker-track').innerHTML = html;
+}
+
+// ===== RESUMO =====
+function renderResumo(){
+  document.getElementById('resumo-metrics').innerHTML = `
+    <div class="metric"><div class="metric-label">Total apostado</div><div class="metric-val">${f(totalApostado)}</div><div class="metric-sub">2 temporadas · 51 semanas</div></div>
+    <div class="metric"><div class="metric-label">Total prémios</div><div class="metric-val up">${f(totalPremios)}</div><div class="metric-sub">${semanasCom} semanas premiadas</div></div>
+    <div class="metric"><div class="metric-label">Rácio prémio/aposta</div><div class="metric-val">${fPct(totalPremios/totalApostado*100)}</div><div class="metric-sub">sobre o total apostado</div></div>
+    <div class="metric"><div class="metric-label">Caixa atual (25/26)</div><div class="metric-val gold">${f(caixa2526)}</div><div class="metric-sub">temporada em curso</div></div>
+  `;
+  document.getElementById('caixa-total-val').textContent = f(caixaTotal);
+  document.getElementById('caixa-total-sub').textContent = `Acumulado de 3 temporadas (23/24 + 24/25 + 25/26)`;
+  document.getElementById('caixa-stats').innerHTML = `
+    <div class="divider-v"></div>
+    <div class="caixa-stat"><div class="lbl">TEMPORADA 23/24</div><div class="val">€77,58</div></div>
+    <div class="caixa-stat"><div class="lbl">TEMPORADA 24/25</div><div class="val">${f(caixa2425)}</div></div>
+    <div class="caixa-stat"><div class="lbl">TEMPORADA 25/26</div><div class="val">${f(caixa2526)}</div></div>
+  `;
+
+  // Recent bets
+  const recent = [...APOSTAS].reverse().slice(0,8);
+  document.getElementById('recent-bets').innerHTML = recent.map(a=>`
+    <tr>
+      <td style="color:var(--text3);font-size:12px">${a.data}</td>
+      <td>${jobadge(a.jogo)} <span style="font-size:12px">${a.jogo}</span></td>
+      <td>${f(a.aposta)}</td>
+      <td class="t-right">${a.premio>0?`<span style="color:var(--up);font-weight:700">${f(a.premio)}</span>`:`<span style="color:var(--text4)">—</span>`}</td>
+    </tr>`).join('');
+
+  // Pagamentos mês atual (Março 2026)
+  const ultimo = PAGAMENTOS[PAGAMENTOS.length-1];
+  document.getElementById('pag-atual').innerHTML = `
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;letter-spacing:.03em">${ultimo.mes.toUpperCase()} ${ultimo.ano}</div>
+    ${MEMBERS.map((m,i)=>{
+      const pago = ultimo[m]===15;
+      const atrasado = m==='Walace' && ultimo.mes==='Março';
+      return `<div class="p-row">
+        <div class="avatar" style="background:${MEMBER_COLORS[i]}22;color:${MEMBER_COLORS[i]}">${m[0]}</div>
+        <div class="p-name">${m}</div>
+        <span class="badge ${atrasado?'badge-late':pago?'badge-ok':'badge-no'}">${atrasado?'⏰ Atrasado':pago?'Pago ✓':'Por pagar'}</span>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:12px;padding-top:10px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;font-size:12px">
+      <span style="color:var(--text3)">Total subscrito</span>
+      <span style="font-weight:700;color:var(--gold1)">${f(ultimo.total)}</span>
+    </div>
+  `;
+
+  // Por jogo
+  const jogoStats = (ap,pr,label)=>`
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+        <span style="color:var(--text3)">Apostado</span><span style="font-weight:700">${f(ap)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+        <span style="color:var(--text3)">Prémios</span><span style="color:var(--up);font-weight:700">${f(pr)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:10px">
+        <span style="color:var(--text3)">Rácio</span><span style="font-weight:700">${fPct(pr/ap*100)}</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-green" style="width:${Math.min(100,pr/ap*100)}%"></div></div>
+    </div>`;
+  document.getElementById('resumo-em').innerHTML = jogoStats(emAp,emPr,'EM');
+  document.getElementById('resumo-ed').innerHTML = jogoStats(edAp,edPr,'ED');
+  document.getElementById('resumo-mb').innerHTML = jogoStats(mbAp,mbPr,'MB');
+}
+
+// ===== APOSTAS =====
+let pagSeasonFilter = '';
+function renderApostas(){
+  const fs = document.getElementById('f-season').value;
+  const fm = document.getElementById('f-mes').value;
+  const fj = document.getElementById('f-jogo').value;
+  const fp = document.getElementById('f-premio').value;
+  let data = [...APOSTAS].reverse();
+  if(fs) data=data.filter(a=>a.season===fs);
+  if(fm) data=data.filter(a=>a.mes===fm);
+  if(fj) data=data.filter(a=>a.jogo===fj);
+  if(fp==='sim') data=data.filter(a=>a.premio>0);
+  if(fp==='nao') data=data.filter(a=>a.premio===0);
+  const totalAp = data.reduce((s,a)=>s+a.aposta,0);
+  const totalPr = data.reduce((s,a)=>s+a.premio,0);
+  document.getElementById('all-apostas').innerHTML = data.map(a=>`
+    <tr>
+      <td><span style="font-size:11px;color:var(--text3)">${a.season}</span></td>
+      <td>${a.mes}</td>
+      <td style="color:var(--text3);font-size:12px">${a.data}</td>
+      <td>${jobadge(a.jogo)} ${a.jogo}</td>
+      <td class="t-right">${f(a.aposta)}</td>
+      <td class="t-right">${a.premio>0?`<span style="color:var(--up);font-weight:700">${f(a.premio)}</span>`:`<span style="color:var(--text4)">—</span>`}</td>
+      <td class="t-right">${a.aposta>0?fPct(a.premio/a.aposta*100):'—'}</td>
+    </tr>`).join('');
+  document.getElementById('apostas-count').textContent = `${data.length} apostas · Apostado: ${f(totalAp)} · Prémios: ${f(totalPr)} · Rácio: ${totalAp>0?fPct(totalPr/totalAp*100):'—'}`;
+  // populate mes filter
+  const meses = [...new Set(APOSTAS.map(a=>a.mes))];
+  const fmEl = document.getElementById('f-mes');
+  const cur = fmEl.value;
+  fmEl.innerHTML = '<option value="">Todos os meses</option>' + meses.map(m=>`<option value="${m}" ${m===cur?'selected':''}>${m}</option>`).join('');
+}
+
+// ===== PAGAMENTOS =====
+function filterPagSeason(s,el){
+  pagSeasonFilter=s;
+  document.querySelectorAll('.season-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderPagamentos();
+}
+
+function renderPagamentos(){
+  const data = pagSeasonFilter ? PAGAMENTOS.filter(p=>p.season===pagSeasonFilter) : PAGAMENTOS;
+  const head = document.getElementById('pag-head');
+  head.innerHTML = `<th>Season</th><th>Mês</th>${MEMBERS.map(m=>`<th class="t-center">${m}</th>`).join('')}<th class="t-right">Total</th><th class="t-right">Apostas</th><th class="t-right">Prémios</th><th class="t-right">Caixa</th>`;
+  document.getElementById('pag-body').innerHTML = data.map(p=>{
+    const membCols = MEMBERS.map((m,i)=>{
+      const val = p[m];
+      return `<td class="t-center"><span class="badge ${val===15?'badge-ok':'badge-no'}">${val===15?'✓':'—'}</span></td>`;
+    }).join('');
+    return `<tr>
+      <td style="font-size:11px;color:var(--text3)">${p.season}</td>
+      <td>${p.mes}</td>
+      ${membCols}
+      <td class="t-right" style="font-weight:700">${f(p.total)}</td>
+      <td class="t-right" style="color:var(--text3)">${f((p.em||0)+(p.ed||0)+(p.desp||0))}</td>
+      <td class="t-right" style="color:var(--up)">${p.premios!=null?f(p.premios):'—'}</td>
+      <td class="t-right" style="color:var(--gold1);font-weight:700">${f(p.caixa)}</td>
+    </tr>`;
+  }).join('');
+
+  // Caixa chart
+  const maxCaixa = Math.max(...data.map(p=>p.caixa||0));
+  document.getElementById('caixa-chart').innerHTML = data.map(p=>`
+    <div class="hbar">
+      <div class="hbar-label">${p.mes.substring(0,3)} ${p.ano}</div>
+      <div class="bar-wrap"><div class="bar bar-green" style="width:${maxCaixa>0?(p.caixa||0)/maxCaixa*100:0}%"></div></div>
+      <div class="hbar-val">${f(p.caixa||0)}</div>
+    </div>`).join('');
+
+  // Season summary
+  const seasons = ['23/24','24/25','25/26'];
+  const caixas = [77.58, caixa2425, caixa2526];
+  document.getElementById('season-summary').innerHTML = `
+    <table>
+      <thead><tr><th>Temporada</th><th class="t-right">Subscrito</th><th class="t-right">Apostado</th><th class="t-right">Prémios</th><th class="t-right">Caixa</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--text3)">23/24</td><td class="t-right">—</td><td class="t-right" style="color:#c0504a">—</td><td class="t-right">—</td><td class="t-right" style="color:var(--gold1);font-weight:700">€77,58</td></tr>
+        <tr><td style="color:var(--text3)">24/25</td><td class="t-right">${f(PAGAMENTOS.filter(p=>p.season==='24/25').reduce((s,p)=>s+(p.total||0),0))}</td><td class="t-right" style="color:#c0504a">${f(APOSTAS.filter(a=>a.season==='24/25').reduce((s,a)=>s+a.aposta,0))}</td><td class="t-right" style="color:var(--up)">${f(APOSTAS.filter(a=>a.season==='24/25').reduce((s,a)=>s+a.premio,0))}</td><td class="t-right" style="color:var(--gold1);font-weight:700">${f(caixa2425)}</td></tr>
+        <tr><td style="color:var(--text3)">25/26</td><td class="t-right">${f(PAGAMENTOS.filter(p=>p.season==='25/26').reduce((s,p)=>s+(p.total||0),0))}</td><td class="t-right" style="color:#c0504a">${f(APOSTAS.filter(a=>a.season==='25/26').reduce((s,a)=>s+a.aposta,0))}</td><td class="t-right" style="color:var(--up)">${f(APOSTAS.filter(a=>a.season==='25/26').reduce((s,a)=>s+a.premio,0))}</td><td class="t-right" style="color:var(--gold1);font-weight:700">${f(caixa2526)}</td></tr>
+        <tr style="border-top:1px solid var(--border2)"><td style="font-weight:700">Total</td><td class="t-right" style="font-weight:700">—</td><td class="t-right" style="color:#c0504a;font-weight:700">${f(totalApostado)}</td><td class="t-right" style="color:var(--up);font-weight:700">${f(totalPremios)}</td><td class="t-right" style="color:var(--gold1);font-weight:700;font-size:15px">${f(caixaTotal)}</td></tr>
+      </tbody>
+    </table>`;
+}
+
+// ===== ESTATÍSTICAS =====
+function renderStats(){
+  document.getElementById('stats-metrics').innerHTML = `
+    <div class="metric"><div class="metric-label">Rácio Euro Milhões</div><div class="metric-val down">${fPct(emPr/emAp*100)}</div><div class="metric-sub">${f(emPr)} em ${f(emAp)}</div></div>
+    <div class="metric"><div class="metric-label">Rácio Euro Dreams</div><div class="metric-val up">${fPct(edPr/edAp*100)}</div><div class="metric-sub">${f(edPr)} em ${f(edAp)}</div></div>
+    <div class="metric"><div class="metric-label">Rácio Milhões&Dreams</div><div class="metric-val">${fPct(mbPr/mbAp*100)}</div><div class="metric-sub">${f(mbPr)} em ${f(mbAp)}</div></div>
+    <div class="metric"><div class="metric-label">Média prémio / semana</div><div class="metric-val">${f(totalPremios/51)}</div><div class="metric-sub">sobre 51 semanas</div></div>
+  `;
+
+  // Prémios por mês
+  const mesPremios = {};
+  APOSTAS.forEach(a=>{
+    const k = `${a.mes} ${a.season}`;
+    if(!mesPremios[k]) mesPremios[k]={mes:a.mes,season:a.season,total:0};
+    mesPremios[k].total += a.premio;
+  });
+  const mpArr = Object.values(mesPremios).filter(m=>m.total>0);
+  const maxMp = Math.max(...mpArr.map(m=>m.total));
+  document.getElementById('premios-mes-chart').innerHTML = mpArr.map(m=>`
+    <div class="hbar">
+      <div class="hbar-label" style="font-size:11px">${m.mes.substring(0,3)} <span style="color:var(--text4)">${m.season}</span></div>
+      <div class="bar-wrap"><div class="bar bar-gold" style="width:${m.total/maxMp*100}%"></div></div>
+      <div class="hbar-val">${f(m.total)}</div>
+    </div>`).join('');
+
+  // Rácio por jogo
+  document.getElementById('racio-chart').innerHTML = `
+    <div class="hbar" style="margin-bottom:16px">
+      <div class="hbar-label">Euro Milhões</div>
+      <div class="bar-wrap"><div class="bar" style="width:${emPr/emAp*100}%;background:linear-gradient(90deg,#1a5a48,#2f7f6d)"></div></div>
+      <div class="hbar-val">${fPct(emPr/emAp*100)}</div>
+    </div>
+    <div class="hbar" style="margin-bottom:16px">
+      <div class="hbar-label">Euro Dreams</div>
+      <div class="bar-wrap"><div class="bar" style="width:${edPr/edAp*100}%;background:linear-gradient(90deg,#2558b0,#6a8ad4)"></div></div>
+      <div class="hbar-val">${fPct(edPr/edAp*100)}</div>
+    </div>
+    <div class="hbar">
+      <div class="hbar-label">Milhões&Dreams</div>
+      <div class="bar-wrap"><div class="bar" style="width:${mbPr/mbAp*100}%;background:linear-gradient(90deg,#6a3aae,#c8a0e8)"></div></div>
+      <div class="hbar-val">${fPct(mbPr/mbAp*100)}</div>
+    </div>
+    <div style="margin-top:16px;padding-top:12px;border-top:0.5px solid var(--border);font-size:11px;color:var(--text4)">Euro Dreams é o jogo mais rentável com ${fPct(edPr/edAp*100)} de retorno</div>
+  `;
+
+  // Evolução caixa acumulada
+  let acum = 77.58;
+  const evolucao = PAGAMENTOS.map(p=>{acum+=(p.caixa||0);return {label:`${p.mes.substring(0,3)} ${p.ano}`,acum};});
+  const maxAcum = acum;
+  document.getElementById('evolucao-caixa').innerHTML = evolucao.map(e=>`
+    <div class="hbar">
+      <div class="hbar-label" style="font-size:11px">${e.label}</div>
+      <div class="bar-wrap"><div class="bar bar-gold" style="width:${e.acum/maxAcum*100}%"></div></div>
+      <div class="hbar-val" style="color:var(--gold1)">${f(e.acum)}</div>
+    </div>`).join('');
+
+  // Top prémios
+  document.getElementById('top-premios').innerHTML = maisPremios.slice(0,8).map((a,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #152e25">
+      <span style="font-size:13px;color:var(--text4);min-width:18px">${i+1}</span>
+      ${jobadge(a.jogo)}
+      <span style="font-size:12px;flex:1">${a.mes} ${a.data.substring(0,4)}</span>
+      <span style="font-weight:700;color:var(--up)">${f(a.premio)}</span>
+    </div>`).join('');
+}
+
+// ===== TABS =====
+function showTab(name, el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el) el.classList.add('active');
+  if(name==='apostas') renderApostas();
+  if(name==='pagamentos') renderPagamentos();
+  if(name==='stats') renderStats();
+}
+
+// ===== LAS VEGAS WATERMARK =====
+(function(){
+  const wm = document.getElementById('lv-wm');
+  const words = ['LAS VEGAS','✦','LAS VEGAS','✦'];
+  let html = '';
+  for(let i=0;i<300;i++){
+    html += `<span>${words[i%words.length]}</span>`;
+  }
+  wm.innerHTML = html;
+})();
+
+// ===== INIT =====
+buildTicker();
+renderResumo();
+renderApostas();
+renderPagamentos();
+renderStats();
+</script>
+</body>
+</html>
